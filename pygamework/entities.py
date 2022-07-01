@@ -1,3 +1,4 @@
+import math
 import pygame
 
 class SpriteSheet:
@@ -17,7 +18,13 @@ class Sprite(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = pos.x
         self.rect.y = pos.y
-    
+        self.angle = 0
+
+    def rotate(self, angle):
+        self.angle = angle
+        self.image = pygame.transform.rotate(self.image, self.angle)
+        self.rect = self.image.get_rect(center=self.rect.center)
+
     def update(self, dt):
         pass
 
@@ -44,6 +51,9 @@ class AnimatedSprite(Sprite):
                 self.anim_index += 1
 
         self.image = self.animations[anim_name][self.anim_index]
+    
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
 
 class TmxTile(pygame.sprite.Sprite):
     def __init__(self, img, pos):
@@ -54,3 +64,12 @@ class TmxTile(pygame.sprite.Sprite):
     
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
+class TileMap:
+    def __init__(self, filename):
+        self.filename = filename
+        with open(self.filename, "r") as f:
+            self.level_data = f.read().splitlines()
+    
+    def get_level_data(self):
+        return self.level_data

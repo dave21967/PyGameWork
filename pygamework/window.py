@@ -18,6 +18,9 @@ class Scene:
     def on_key_released(self, key):
         pass
 
+    def on_key_typed(self, key, text):
+        pass
+
     def on_mouse_button_down(self, button):
         pass
 
@@ -74,6 +77,7 @@ class GameWindow:
                     self.tree.get_scene("main").on_mouse_button_down(pygame.mouse.get_pressed())
                 if evt.type == pygame.KEYDOWN:
                     self.tree.get_scene("main").on_key_pressed(evt.key)
+                    self.tree.get_scene("main").on_key_typed(evt.key, evt.unicode)
                 if evt.type == pygame.KEYUP:
                     self.tree.get_scene("main").on_key_released(evt.key)
                 if evt.type == pygame.MOUSEMOTION:
